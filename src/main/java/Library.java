@@ -1,5 +1,4 @@
 package src.main.java;
-
 import java.util.ArrayList;
 
 public class Library {
@@ -16,7 +15,6 @@ public class Library {
     }
 
     public void populateLibrary(){
-
     }
 
     public ArrayList<Book> getRemovedBooks() {
