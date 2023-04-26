@@ -3,6 +3,7 @@ import com.opencsv.exceptions.CsvException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -46,9 +47,10 @@ public class CsvToJsonConverter {
         }
         return jsonArray.toString();
     }
-
-
     private static void writeJsonToFile(String jsonData, String jsonFilePath) throws IOException {
+        FileWriter fileWriter = new FileWriter(jsonFilePath);
+        fileWriter.write(jsonData);
+        fileWriter.close();
     }
 }
 
