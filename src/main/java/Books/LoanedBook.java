@@ -1,3 +1,8 @@
+package Books;
+
+import Books.Book;
+import Users.LibraryUser;
+
 import java.time.LocalDate;
 
 public class LoanedBook {
