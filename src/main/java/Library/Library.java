@@ -1,10 +1,12 @@
 package Library;
 
 import Books.Book;
+import Books.CsvToJsonConverter;
 import Books.LoanedBook;
 import Users.AdminUser;
 import Users.LibraryUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Library {
@@ -23,11 +25,9 @@ public class Library {
         this.adminUsersList = adminUsersList;
     }
 
-    {
-        populateLibrary();
-    }
 
-    public void populateLibrary(){
+    public void addBook() throws IOException {
+        availableBooks = CsvToJsonConverter.convertJsonToBookList("src/main/resources/books_data.json");
     }
 
     public ArrayList<LoanedBook> getLoanedBooks() {
@@ -43,7 +43,6 @@ public class Library {
     public void resetLibrary(){
         availableBooks.clear();
         loanedBooks.clear();
-        populateLibrary();
     }
 
     public ArrayList<Book> getAvailableBooks() {

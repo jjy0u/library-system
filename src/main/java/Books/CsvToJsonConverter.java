@@ -1,3 +1,6 @@
+package Books;
+
+import Books.Book;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.json.JSONArray;
@@ -5,6 +8,8 @@ import org.json.JSONObject;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -51,6 +56,23 @@ public class CsvToJsonConverter {
         FileWriter fileWriter = new FileWriter(jsonFilePath);
         fileWriter.write(jsonData);
         fileWriter.close();
+    }
+
+    public static ArrayList<Book> convertJsonToBookList(String jsonFilePath) throws IOException {
+        ArrayList<Book> bookList = new ArrayList<>();
+        String jsonData = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
+        JSONArray jsonArray = new JSONArray(jsonData);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            int number = jsonObject.getInt("Number");
+            String title = jsonObject.getString("Title");
+            String author = jsonObject.getString("Author");
+            String genre = jsonObject.getString("Genre");
+            String publisher = jsonObject.getString("Publisher");
+            String subgenre = jsonObject.getString("SubGenre");
+            bookList.add(new Book(number,title, author, genre, publisher, subgenre));
+        }
+        return bookList;
     }
 }
 

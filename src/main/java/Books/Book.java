@@ -1,6 +1,7 @@
 package Books;
 
 public class Book {
+    private int number;
     private String title ;
     private String author;
     private String genre;
@@ -8,13 +9,20 @@ public class Book {
     private String publisher;
     private int loanCount;
 
-    public Book(String title, String author, String genre, String subgenre, String publisher,int loanCount) {
+    public Book(int number,String title, String author, String genre, String subgenre, String publisher) {
+        this.number = number;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.subgenre = subgenre;
         this.publisher = publisher;
-        this.loanCount = loanCount;
+    }
+
+    public String rearrangeAuthor() {
+        if (author.contains(",")) {
+            return author.split(", ")[1] + " " + author.split(",")[0];
+        }
+        return author;
     }
 
     public String getTitle() {
@@ -67,6 +75,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return title + " by " + author;
+        return "("+number+")    " + title + " by " + rearrangeAuthor();
     }
 }
