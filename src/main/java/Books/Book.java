@@ -25,6 +25,14 @@ public class Book {
         return author;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
     public String getTitle() {
         return title;
     }

@@ -1,7 +1,7 @@
 package Library;
 
 import Books.Book;
-import Books.CsvToJsonConverter;
+import Utils.CsvToJsonConverter;
 import Books.LoanedBook;
 import Users.AdminUser;
 import Users.LibraryUser;
@@ -10,12 +10,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Library {
+    private ArrayList<Book> allBooks = new ArrayList<>();
+
     private ArrayList<Book> availableBooks = new ArrayList<>();
     private ArrayList<LoanedBook> loanedBooks = new ArrayList<>();
     private ArrayList<LibraryUser> libraryUsersList = new ArrayList<>();
     private ArrayList<AdminUser> adminUsersList = new ArrayList<>();
 
     public Library() {
+    }
+
+    {
+        try {
+            populateBook();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Library(ArrayList<Book> availableBooks, ArrayList<LoanedBook> loanedBooks, ArrayList<LibraryUser> libraryUsersList, ArrayList<AdminUser> adminUsersList) {
@@ -25,18 +35,20 @@ public class Library {
         this.adminUsersList = adminUsersList;
     }
 
-
-    public void addBook() throws IOException {
+    public void populateBook() throws IOException {
+        allBooks = CsvToJsonConverter.convertJsonToBookList("src/main/resources/books_data.json");
         availableBooks = CsvToJsonConverter.convertJsonToBookList("src/main/resources/books_data.json");
     }
 
-    public ArrayList<LoanedBook> getLoanedBooks() {
-        return loanedBooks;
+    public void listAvailableBooks() {
+        for (int i = 0; i < availableBooks.size(); i++) {
+            System.out.println(availableBooks.get(i));
+        }
     }
 
-    public void loanBook() {
+    public void loanBook(LibraryUser loaner) {
         Book removedBook = availableBooks.remove(0);
-        LoanedBook loanedBook = new LoanedBook(removedBook, null);
+        LoanedBook loanedBook = new LoanedBook(removedBook, loaner);
         loanedBooks.add(0, loanedBook);
     }
 
@@ -47,6 +59,10 @@ public class Library {
 
     public ArrayList<Book> getAvailableBooks() {
         return availableBooks;
+    }
+
+    public ArrayList<LoanedBook> getLoanedBooks() {
+        return loanedBooks;
     }
 
     public void setAvailableBooks(ArrayList<Book> availableBooks) {

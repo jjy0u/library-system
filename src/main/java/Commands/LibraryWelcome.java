@@ -1,5 +1,6 @@
 package Commands;
 import Users.AdminUser;
+import Users.CurrentUser;
 import Users.LibraryUser;
 import Library.Library;
 
@@ -13,7 +14,7 @@ public class LibraryWelcome {
     static ArrayList<AdminUser> adminUsersList = library.getAdminUsersList();
 
     public static void libraryWelcome() {
-        System.out.println("Welcome to the Library.Library, choose one of the following: \n 1: Log in \n 2: Sign Up");
+        System.out.println("Welcome to The Library, choose one of the following: \n 1: Log in \n 2: Sign Up");
         String logOn = validateInput("");
         if (Objects.equals(logOn, "1")) {
             logIn();
@@ -76,6 +77,7 @@ public class LibraryWelcome {
     public static boolean validateLibraryUser(String email, String password) {
         for (LibraryUser user : libraryUsersList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                CurrentUser currentUser = new CurrentUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user);
                 return true;
             }
         }
@@ -85,6 +87,7 @@ public class LibraryWelcome {
     public static boolean validateAdminUser(String adminID, String password) {
         for (AdminUser user : adminUsersList) {
             if (user.getEmail().equals(adminID) && user.getPassword().equals(password)) {
+                CurrentUser currentUser = new CurrentUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user);
                 return true;
             }
         }
