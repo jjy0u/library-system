@@ -8,6 +8,7 @@ import Users.LibraryUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Library {
     private ArrayList<Book> allBooks = new ArrayList<>();
@@ -46,10 +47,28 @@ public class Library {
         }
     }
 
-    public void loanBook(LibraryUser loaner) {
-        Book removedBook = availableBooks.remove(0);
-        LoanedBook loanedBook = new LoanedBook(removedBook, loaner);
-        loanedBooks.add(0, loanedBook);
+//    public void populateLibraryUsersList() {
+//            libraryUsersList.add(LibraryUser);
+//    }
+
+    public void loanBook(int bookNumber, LibraryUser loaner) {
+        for (int i = 0; i < availableBooks.size(); i++) {
+            if (availableBooks.get(i).getNumber() == bookNumber){
+                Book removedBook = availableBooks.remove(i);
+                LoanedBook loanedBook = new LoanedBook(removedBook, loaner);
+                loanedBooks.add(0, loanedBook);
+            }
+        }
+    }
+
+    public void returnBook(int bookNumber, LibraryUser loaner) {
+        for (int i = 0; i < loanedBooks.size(); i++) {
+            if (loanedBooks.get(i).getBook().getNumber() == bookNumber){
+                LoanedBook removedBook = loanedBooks.remove(i);
+                availableBooks.add(0, allBooks.get(i));
+                availableBooks.sort(Comparator.comparing(Book::getNumber));
+            }
+        }
     }
 
     public void resetLibrary(){

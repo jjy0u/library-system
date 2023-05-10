@@ -8,12 +8,12 @@ public class Main {
     static Library library = new Library();
 
     public static void main(String[] args) throws IOException {
-        //LibraryWelcome.libraryWelcome();
+        LibraryWelcome.libraryWelcome();
 
         //library.populateBook();
 
 
-        LibraryCommands.menu();
+        //LibraryCommands.menu();
 
     }
 }

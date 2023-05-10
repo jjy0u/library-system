@@ -4,13 +4,13 @@ import Books.Book;
 import Books.LoanedBook;
 import Library.Library;
 import Users.CurrentUser;
+import Users.LibraryUser;
 
 import java.util.Objects;
 import java.util.Scanner;
 
 public class LibraryCommands {
     private static CurrentUser currentUser;
-
     static Scanner scanner = new Scanner(System.in);
     private static Library library = new Library();
 
@@ -35,7 +35,7 @@ public class LibraryCommands {
                     break;
                 case "3":
                     listAvailableBooks();
-                    redirectUser();
+                    userLoanBook();
                     break;
                 case "4":
                     System.out.println("Thank you for visiting The Library, Goodbye!");
@@ -49,7 +49,11 @@ public class LibraryCommands {
     }
 
     private static void viewLoanedBooks() {
-
+        System.out.println("Here are the books you currently have loaned:");
+        for (LoanedBook loanedBook : currentUser.getLibraryUser().getBooksLoaned()) {
+            System.out.println("("+loanedBook.getBook().getNumber()+")    " + loanedBook.getBook().getTitle() + " by " + loanedBook.getBook().rearrangeAuthor() + "| due on: " + loanedBook.getDueDate());
+        }
+        returnBook();
     }
 
     private static void searchForBook() {
@@ -60,21 +64,46 @@ public class LibraryCommands {
         library.listAvailableBooks();
     }
 
-    public static void redirectUser() {
+    public static void userLoanBook() {
         System.out.println("Would you like to loan a book?\n\n" +
                 "1. Yes\n" +
                 "2. No, return to main menu\n");
         String userInput = LibraryWelcome.validateInput("");
         if (Objects.equals(userInput, "1")){
-            System.out.println("Please state the number of the book");
+            System.out.println("Please state the number of the book you would like to borrow.");
             int bookNumber = Integer.parseInt(scanner.nextLine());
             for (Book book : library.getAvailableBooks()) {
                 if (book.getNumber() == bookNumber){
-                    library.loanBook(currentUser.getLibraryUser());
-                    System.out.println("you have loaned " + book.getTitle() +" by " + book.rearrangeAuthor() + ". Please return by " + library.getLoanedBooks().get(0).getDueDate() + ".");
-                    redirectUser();
+                    library.loanBook(bookNumber, currentUser.getLibraryUser());
+                    currentUser.addLoanedBooks();
+                    // add a "would like to loan xyz - yes or no" first
+                    System.out.println("You have loaned " + book.getTitle() +" by " + book.rearrangeAuthor() + ". Please return by " + library.getLoanedBooks().get(0).getDueDate() + ".");
+                    System.out.println("this is the current user: " + currentUser.getLibraryUser() +" and these are their loaned books: " + currentUser.getLibraryUser().getBooksLoaned());
+                    userLoanBook();
                 }
             }
+        } else {
+            menu();
+        }
+    }
+
+    public static void returnBook() {
+        System.out.println("Would you like to return a book?\n\n" +
+                "1. Yes\n" +
+                "2. No, return to main menu\n");
+        String userInput = LibraryWelcome.validateInput("");
+        if (Objects.equals(userInput, "1")){
+            System.out.println("Please state the number of the book you would like to return");
+            int bookNumber = Integer.parseInt(scanner.nextLine());
+            for (LoanedBook loanedBook : library.getLoanedBooks()) {
+                if (loanedBook.getBook().getNumber() == bookNumber){
+                    library.returnBook(bookNumber, currentUser.getLibraryUser());
+                    System.out.println("you have returned " + loanedBook.getBook().getTitle() +" by " + loanedBook.getBook().rearrangeAuthor() + ".");
+                    userLoanBook();
+                }
+            }
+        } else {
+            menu();
         }
     }
 

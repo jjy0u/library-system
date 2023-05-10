@@ -33,7 +33,16 @@ public class LibraryWelcome {
         System.out.println("Password:");
         String password = scanner.nextLine();
         LibraryUser newUser = new LibraryUser(firstName, lastName, email, password);
+        library.getLibraryUsersList().add(newUser);
+        System.out.println("You have successfully created an account! Would you like to log in? \n\n" +
+                "1. Yes\n" +
+                "2. No, I want to exit.");
+        String userInput = validateInput("");
+        if (Objects.equals(userInput, "1")){
+            logIn();
+        }
     }
+
     public static void logIn() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Are you a user or an admin? \n 1: User \n 2: Admin");
@@ -41,7 +50,6 @@ public class LibraryWelcome {
         if (Objects.equals(userType, "1")) {
             String email;
             String password;
-
             do {
                 System.out.println("Email:");
                 email = scanner.nextLine();
@@ -78,6 +86,7 @@ public class LibraryWelcome {
         for (LibraryUser user : libraryUsersList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 CurrentUser currentUser = new CurrentUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user);
+                new LibraryCommands(currentUser).menu();
                 return true;
             }
         }
