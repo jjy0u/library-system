@@ -65,8 +65,9 @@ public class Library {
         for (int i = 0; i < loanedBooks.size(); i++) {
             if (loanedBooks.get(i).getBook().getNumber() == bookNumber){
                 LoanedBook removedBook = loanedBooks.remove(i);
-                availableBooks.add(0, allBooks.get(i));
+                availableBooks.add(0, allBooks.get(removedBook.getBook().getNumber()-1));
                 availableBooks.sort(Comparator.comparing(Book::getNumber));
+
             }
         }
     }

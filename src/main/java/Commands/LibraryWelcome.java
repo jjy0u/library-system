@@ -34,7 +34,7 @@ public class LibraryWelcome {
         String password = scanner.nextLine();
         LibraryUser newUser = new LibraryUser(firstName, lastName, email, password);
         library.getLibraryUsersList().add(newUser);
-        System.out.println("You have successfully created an account! Would you like to log in? \n\n" +
+        System.out.println("\nYou have successfully created an account! Would you like to log in?\n" +
                 "1. Yes\n" +
                 "2. No, I want to exit.");
         String userInput = validateInput("");
@@ -45,7 +45,7 @@ public class LibraryWelcome {
 
     public static void logIn() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Are you a user or an admin? \n 1: User \n 2: Admin");
+        System.out.println("\nAre you a user or an admin? \n 1: User \n 2: Admin");
         String userType = validateInput("");
         if (Objects.equals(userType, "1")) {
             String email;

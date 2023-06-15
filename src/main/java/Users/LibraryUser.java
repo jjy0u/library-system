@@ -1,5 +1,6 @@
 package Users;
 import Books.LoanedBook;
+import Commands.LibraryCommands;
 import Library.Library;
 
 import java.util.ArrayList;
@@ -8,8 +9,6 @@ import java.util.ArrayList;
 public class LibraryUser extends User{
     private int libraryID;
     private ArrayList<LoanedBook> booksLoaned = new ArrayList<>();
-
-    private static Library library = new Library();
 
     public LibraryUser(String firstName, String lastName, String email, String password) {
         super(firstName, lastName, email, password);
@@ -22,9 +21,17 @@ public class LibraryUser extends User{
     }
 
     public void addLoanedBooks() {
-        for (LoanedBook loanedBook : library.getLoanedBooks()) {
-            if (loanedBook.getLoaner().libraryID == libraryID){
+        for (LoanedBook loanedBook : LibraryCommands.library.getLoanedBooks()) {
+            if (loanedBook.getLoaner().getLibraryID() == this.libraryID && !booksLoaned.contains(loanedBook) ){
                 booksLoaned.add(loanedBook);
+            }
+        }
+    }
+
+    public void removeLoanedBooks(int bookNumber) {
+        for (LoanedBook loanedBook : LibraryCommands.library.getLoanedBooks()) {
+            if (loanedBook.getBook().getNumber() == bookNumber ){
+                booksLoaned.remove(loanedBook);
             }
         }
     }

@@ -20,12 +20,11 @@ public class CurrentUser extends User{
     }
 
     public void addLoanedBooks() {
-        for (LoanedBook loanedBook : library.getLoanedBooks()) {
-            if (loanedBook.getLoaner().getLibraryID() == this.libraryUser.getLibraryID()){
-                this.libraryUser.getBooksLoaned().add(loanedBook);
-                //System.out.println("these are loaned books"+ this.libraryUser.getBooksLoaned());
-            }
-        }
+        this.libraryUser.addLoanedBooks();
+    }
+
+    public void removeLoanedBooks(int bookNumber) {
+        this.libraryUser.removeLoanedBooks(bookNumber);
     }
 
     public LibraryUser getLibraryUser() {
